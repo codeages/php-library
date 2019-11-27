@@ -1,0 +1,18 @@
+{
+    "name": "codeages/library",
+    "description": "A php library.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "CodeAges",
+            "email": "team@codeages.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "CodeAges\\Library\\": "src"
+        }
+    },
+    "require": {}
+}
