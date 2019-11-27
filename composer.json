@@ -12,7 +12,8 @@
     "autoload": {
         "psr-4": {
             "CodeAges\\Library\\": "src"
-        }
+        },
+        "files": ["src/functions.php"]
     },
     "require": {}
 }
