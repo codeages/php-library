@@ -1,2 +1,1 @@
-# php-component
-PHP Common component
+# PHP Library
