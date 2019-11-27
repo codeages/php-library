@@ -11,9 +11,17 @@
     ],
     "autoload": {
         "psr-4": {
-            "CodeAges\\Library\\": "src"
+            "Codeages\\Library\\": "src/"
         },
         "files": ["src/functions.php"]
     },
-    "require": {}
+    "autoload-dev": {
+        "psr-4": {
+            "Codeages\\Library\\Tests\\": "tests/"
+        }
+    },
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "^4.8.35 || ^5.7 || ^6.4 || ^7.0"
+    }
 }
