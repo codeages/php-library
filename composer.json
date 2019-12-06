@@ -20,7 +20,10 @@
             "Codeages\\Library\\Tests\\": "tests/"
         }
     },
-    "require": {},
+    "require": {
+        "datto/json-rpc": "^6.0",
+        "symfony/http-client": "^4.4"
+    },
     "require-dev": {
         "phpunit/phpunit": "^4.8.35 || ^5.7 || ^6.4 || ^7.0"
     },
