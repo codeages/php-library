@@ -1,6 +1,6 @@
 <?php
 
-namespace Codeages\Library;
+namespace Codeages\Library\Util;
 
 /**
  * 字符串的工具类
