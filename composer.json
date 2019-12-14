@@ -21,6 +21,7 @@
         }
     },
     "require": {
+        "monolog/monolog": "^1.20",
         "datto/json-rpc": "^6.0",
         "symfony/http-client": "^4.4",
         "paragonie/random_compat": ">=2"
