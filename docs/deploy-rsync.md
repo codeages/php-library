@@ -2,7 +2,7 @@
 
 ## 简介
 
-Deployer 的 [Rsync recipe](https://deployer.org/recipes/rsync.html) 支持通过构建服务器(Build Server)将程序发布到应用集群服务器的模式。但 Rsync recipe 不支持 rsync 的 dry-run 模式，本仓库的 [../scripts/rsync-dry-run-recipe](scripts/rsync-dry-run-recipe.php) 对 Rsync recipe 做了增强，支持 DRY-RUN 模式，以便于在正式执行部署命令前，可以通过 DRY-RUN 模式，查看本次要部署的具体代码变更文件列表，通过核实变更文件列表，以降低可能的误操作。
+Deployer 的 [Rsync recipe](https://deployer.org/recipes/rsync.html) 支持通过构建服务器(Build Server)将程序发布到应用集群服务器的模式。但 Rsync recipe 不支持 rsync 的 dry-run 模式，本仓库的 [scripts/rsync-dry-run-recipe.php](../scripts/rsync-dry-run-recipe.php) 对 Rsync recipe 做了增强，支持 DRY-RUN 模式，以便于在正式执行部署命令前，可以通过 DRY-RUN 模式，查看本次要部署的具体代码变更文件列表，通过核实变更文件列表，以降低可能的误操作。
 
 ## 安装
 
