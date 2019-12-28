@@ -2,7 +2,7 @@
 
 namespace Codeages\Library;
 
-use Codeages\Library\Populate\Populate;
+use Codeages\Library\Util\Populate;
 
 /**
  * @param array $items
