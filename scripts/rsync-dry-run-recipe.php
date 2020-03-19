@@ -1,6 +1,8 @@
 <?php
 namespace Deployer;
 
+use Deployer\Task\Context;
+
 // Tasks
 task('build', function() {
 
@@ -17,12 +19,23 @@ task('deploy', function() {
         return ;
     }
 
-    if (askConfirmation("Do you real deploy ? (Press 'Enter' or 'Y' key)", true)) {
+    $src = get('rsync_src');
+    while (is_callable($src)) {
+        $src = $src();
+    }
+
+    if (!testLocally("[ -f $src/.dry_run_asked ]")) {
+        if (askConfirmation("Do you real deploy ? (Press 'Enter' or 'Y' key)", true)) {
+            runLocally("touch {$src}/.dry_run_asked");
+            invoke('deploy:real-run');
+        }
+    } else {
         invoke('deploy:real-run');
     }
 });
 
 set('can_deploy', function() {
+    $host = Context::get()->getHost();
     $src = get('rsync_src');
     while (is_callable($src)) {
         $src = $src();
@@ -32,10 +45,11 @@ set('can_deploy', function() {
         throw new \RuntimeException('You need to specify a source path.');
     }
 
-    return testLocally("[ -f $src/.dry_run ]");
+    return testLocally("[ -f $src/.dry_run.{$host} ]");
 });
 
 task('deploy:dry_run', function() {
+    $host = Context::get()->getHost();
     $config = get('rsync');
 
     $src = get('rsync_src');
@@ -50,7 +64,7 @@ task('deploy:dry_run', function() {
     try {
         $dst = get('rsync_dest');
     } catch (\Exception $e) {
-        runLocally("touch {$src}/.dry_run");
+        runLocally("touch {$src}/.dry_run.{$host}");
         writeln("<bg=yellow;options=bold>Failed to get configuration `rsync_dest`, if this is the first deployment, please ignore this error, otherwise please check your configuration.</>");
         return ;
     }
@@ -79,10 +93,15 @@ task('deploy:dry_run', function() {
     $user = !$server->getUser() ? '' : $server->getUser() . '@';
 
     runLocally("rsync -{$config['flags']} -e 'ssh$port $sshArguments' --dry-run {{rsync_options}}{{rsync_includes}}{{rsync_excludes}}{{rsync_filter}} '$src/' '$user$host:$dst/'", $config);
-    runLocally("touch {$src}/.dry_run");
+    runLocally("touch {$src}/.dry_run.{$host}");
+
+    if (testLocally("[ -f $src/.dry_run_asked ]")) {
+        runLocally("rm {$src}/.dry_run_asked");
+    }
 });
 
 task('deploy:remove_rsync_lockfile', function() {
+    $host = Context::get()->getHost();
     $config = get('rsync');
 
     $src = get('rsync_src');
@@ -94,8 +113,8 @@ task('deploy:remove_rsync_lockfile', function() {
         throw new \RuntimeException('You need to specify a source path.');
     }
 
-    if (testLocally("[ -f $src/.dry_run ]")) {
-        runLocally("rm {$src}/.dry_run");
+    if (testLocally("[ -f $src/.dry_run.{$host} ]")) {
+        runLocally("rm {$src}/.dry_run.{$host}");
     } else {
         writeln("<comment>{$src}/.dry_run is not exit.</comment>");
     }
