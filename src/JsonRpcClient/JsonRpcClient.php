@@ -4,6 +4,7 @@ namespace Codeages\Library\JsonRpcClient;
 
 use Datto\JsonRpc\Responses\ErrorResponse;
 use Datto\JsonRpc\Responses\ResultResponse;
+use GuzzleHttp\Client;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
@@ -80,7 +81,7 @@ class JsonRpcClient
                 'headers' => $headers,
                 'body' => $protocol->encode(),
             ]);
-            $content = $response->getContent();
+            $content = $response->getBody();
         } catch (ExceptionInterface $e) {
             $detail = null;
             if ($e instanceof ServerExceptionInterface || $e instanceof ClientExceptionInterface) {
@@ -133,7 +134,7 @@ class JsonRpcClient
     private function getHttp()
     {
         if (!$this->http)  {
-            $this->http = new \Symfony\Component\HttpClient\CurlHttpClient();
+            $this->http = new Client();
         }
 
         return $this->http;
